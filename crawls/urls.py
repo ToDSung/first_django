@@ -4,5 +4,5 @@ from . import views
 
 app_name = 'crawls'
 urlpatterns = [
-    path('', views.FanPageList.as_view(), name='index')
+    path('', views.FanPageView.as_view(), name='index'),
     ]

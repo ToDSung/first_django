@@ -1,0 +1,9 @@
+{% if fanpage_list %}
+	<ul>
+	{% for fanpage in fanpage_list %}
+		<li>{{ fanpage.name }}</li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>No fanpage are available.</p>
+{% endif %}
