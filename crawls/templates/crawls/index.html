@@ -1,7 +1,9 @@
+<a href="{% url 'crawls:fbcrawl' %}">start crawler</a>
+
 {% if fanpage_list %}
 	<ul>
 	{% for fanpage in fanpage_list %}
-		<li>{{ fanpage.name }}</li>
+		<li><a href="{% url 'crawls:detail' fanpage.id %}">{{ fanpage.name }}</a></li>
 	{% endfor %}
 	</ul>
 {% else %}

@@ -1,0 +1,12 @@
+<h1>{{ fanpage.name }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% if fanpage.article_set.all  %}
+    {% for article in fanpage.article_set.all %}
+        {{ article.text }} {{ article.time }} 
+        </br>
+    {% endfor %}
+{% else %}
+    <h2>No article list in this fanpage</h2>
+{% endif %}
