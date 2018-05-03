@@ -56,7 +56,7 @@ ROOT_URLCONF = 'ToD_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['C://Users/ci/Downloads/code/ToD_site/crawls/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
