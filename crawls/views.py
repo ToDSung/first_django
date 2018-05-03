@@ -18,11 +18,15 @@ class DetailView(generic.DetailView):
     model = FanPage
     template_name = 'crawls/detail.html'
 
-def fbcrawl(request):
-    imformation_list = fb_crawler()
+def crawl(request, fanpage_id):
+    fanpage = FanPage.objects.get(pk=fanpage_id)
+    imformation_list = fb_crawler(fanpage_id,fanpage)
     
     for row in imformation_list:
-        Article.objects.create(fanpage_id=1,text=row[0], time=row[1])
+        Article.objects.create(fanpage_id=fanpage_id,text=row[0], time=row[1])
     Article.save
-    
-    return HttpResponse ("The fb crawler are already finished!")
+    return HttpResponse ("The fb crawler have already finished!")
+
+def delete(request, fanpage_id):
+    Article.objects.filter(fanpage_id=fanpage_id).delete()
+    return HttpResponse ("The exist data have already deleted")

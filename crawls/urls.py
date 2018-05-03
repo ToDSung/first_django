@@ -7,5 +7,6 @@ app_name = 'crawls'
 urlpatterns = [
     path('', views.FanPageView.as_view(), name='index'),
     path('<int:pk>', views.DetailView.as_view(), name='detail'),
-    path('fbcrawl', views.fbcrawl, name='fbcrawl'),
+    path('<int:fanpage_id>/crawl', views.crawl, name='crawl'),
+    path('<int:fanpage_id>/delete', views.delete, name='delete'),
     ]
