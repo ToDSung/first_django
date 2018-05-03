@@ -1,11 +1,22 @@
-<a href="{% url 'crawls:fbcrawl' %}">start crawler</a>
+	
+{%  extends "./css_header.html" %}
 
-{% if fanpage_list %}
-	<ul>
-	{% for fanpage in fanpage_list %}
-		<li><a href="{% url 'crawls:detail' fanpage.id %}">{{ fanpage.name }}</a></li>
-	{% endfor %}
-	</ul>
-{% else %}
-	<p>No fanpage are available.</p>
-{% endif %}
+{% block mainbody %}
+    <h1>FaceBook Fanpage Crawler </h1>
+
+
+    {% if fanpage_list %}
+        <div class="container" >
+            <ul>
+            {% for fanpage in fanpage_list %}
+                <li><a href="{% url 'crawls:detail' fanpage.id %}">{{ fanpage.name }}</a>
+                <a href="{% url 'crawls:crawl' fanpage.id %}">start crawler</a>
+                <a href="{% url 'crawls:delete' fanpage.id %}">delete crawled data</a>
+                </li>
+            {% endfor %}
+            </ul>
+         </div>
+    {% else %}
+        <p>No fanpage are available.</p>
+    {% endif %}
+{% endblock  %}
