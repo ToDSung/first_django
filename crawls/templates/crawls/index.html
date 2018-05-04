@@ -12,19 +12,21 @@
                 <tr>
                     <th>fan page name</th>
                     <th>crawler </th>
-                    <th>delete </th>
+                    <th>delete data </th>
+                    <th>delete fanpage</th>
                 </tr>
             {% for fanpage in fanpage_list %}
                 <tr>
                     <td><a href="{% url 'crawls:detail' fanpage.id %}">{{ fanpage.name }}</a></td>
                     <td><a href="{% url 'crawls:crawl' fanpage.id %}">start crawler</a></td>
-                    <td><a href="{% url 'crawls:delete' fanpage.id %}">delete crawled data</a></td>
+                    <td><a href="{% url 'crawls:delete_crawled_data' fanpage.id %}">delete crawled data</a></td>
+                    <td><a href="{% url 'crawls:delete_fanpage' fanpage.id %}">delete fan page</a></td>
                 </tr>    
             {% endfor %}
                 <form action="{% url 'crawls:add' %}" method="POST">
                     {% csrf_token %}
                     <tr>
-                        <td colspan="2"><input type="text" class="form-control" name="name" placeholder="Input your interested fanpage name XXXXX">
+                        <td colspan="3"><input type="text" class="form-control" name="name" placeholder="Input your interested fanpage name XXXXX">
                         <small class="form-text text-muted">Find the fanpage name in the url https://www.facebook.com/XXXXX/  </small>
                         </td>
 

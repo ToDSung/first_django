@@ -9,5 +9,6 @@ urlpatterns = [
     path('add', views.add, name='add'),
     path('<int:pk>', views.DetailView.as_view(), name='detail'),
     path('<int:fanpage_id>/crawl', views.crawl, name='crawl'),
-    path('<int:fanpage_id>/delete', views.delete, name='delete'),
+    path('<int:fanpage_id>/delete', views.delete_crawled_data, name='delete_crawled_data'),
+    path('<int:fanpage_id>/delete2', views.delete_fanpage, name='delete_fanpage')
     ]

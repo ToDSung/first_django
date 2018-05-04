@@ -33,7 +33,7 @@ def add(request):
             FanPage.save
             fanpage_list = FanPage.objects.all()
             return HttpResponseRedirect('/crawls/')
-        return HttpResponse ("The exist data have already deleted")
+        return HttpResponse ("The input data type doesn't supported")
         #return HttpResponseRedirect('/fanpage/' + str(new_article.pk))
 
 
@@ -46,7 +46,12 @@ def crawl(request, fanpage_id):
     Article.save
     return HttpResponseRedirect('/crawls/')
 
-def delete(request, fanpage_id):
+def delete_crawled_data(request, fanpage_id):
     Article.objects.filter(fanpage_id=fanpage_id).delete()
+    return HttpResponseRedirect('/crawls/')
+
+def delete_fanpage(request, fanpage_id):
+    print(fanpage_id)
+    FanPage.objects.filter(id=fanpage_id).delete()
     return HttpResponseRedirect('/crawls/')
 
