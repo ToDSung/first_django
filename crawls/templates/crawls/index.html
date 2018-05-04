@@ -2,19 +2,35 @@
 {%  extends "./css_header.html" %}
 
 {% block mainbody %}
-    <h1>FaceBook Fanpage Crawler </h1>
-
+    <div class="container">
+        <h1>FaceBook Fanpage Crawler </h1>
+    </div>
 
     {% if fanpage_list %}
         <div class="container" >
-            <ul>
+            <table class="table table-hover ">
+                <tr>
+                    <th>fan page name</th>
+                    <th>crawler appoint</th>
+                    <th>delete appoint</th>
+                </tr>
             {% for fanpage in fanpage_list %}
-                <li><a href="{% url 'crawls:detail' fanpage.id %}">{{ fanpage.name }}</a>
-                <a href="{% url 'crawls:crawl' fanpage.id %}">start crawler</a>
-                <a href="{% url 'crawls:delete' fanpage.id %}">delete crawled data</a>
-                </li>
+                <tr>
+                    <td><a href="{% url 'crawls:detail' fanpage.id %}">{{ fanpage.name }}</a></td>
+                    <td><a href="{% url 'crawls:crawl' fanpage.id %}">start crawler</a></td>
+                    <td><a href="{% url 'crawls:delete' fanpage.id %}">delete crawled data</a></td>
+                </tr>    
             {% endfor %}
-            </ul>
+                <form action="">
+                    <tr>
+                        <td colspan="2"><input type="text" class="form-control" placeholder="Input your interested fanpage name XXXXX">
+                        <small class="form-text text-muted">Find the fanpage name in the url https://www.facebook.com/XXXXX/  </small>
+                        </td>
+
+                        <td><button type="submit" class="btn btn-primary">Submit</button></td>
+                    </tr>
+                </form>
+            </table>
          </div>
     {% else %}
         <p>No fanpage are available.</p>
