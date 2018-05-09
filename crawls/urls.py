@@ -17,8 +17,8 @@ urlpatterns = [
     path('ptt', views.BoardView.as_view(), name='ptt_index'),
     path('ptt/<int:pk>', views.PTTDetailView.as_view(), name='ptt_detail'),
     path('ptt/<int:board_id>/crawl', views.crawl_ptt_data, name='ptt_crawl'),
-    path('ptt/<int:fanpage_id>/delete', views.delete_ptt_data,
+    path('ptt/<int:board_id>/delete', views.delete_ptt_data,
          name='ptt_delete_crawled_data'),
-    path('ptt/<int:fanpage_id>/delete2',
+    path('ptt/<int:board_id>/delete2',
          views.delete_board, name='ptt_delete_board'),
 ]

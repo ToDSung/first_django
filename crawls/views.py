@@ -110,13 +110,13 @@ def crawl_ptt_data(request, board_id):
     return HttpResponseRedirect(reverse('crawls:ptt_index'))
 
 
-def delete_ptt_data(request, fanpage_id):
-    PttArticle.objects.filter(fanpage_id=fanpage_id).delete()
+def delete_ptt_data(request, board_id):
+    PttArticle.objects.filter(board_id=board_id).delete()
     return HttpResponseRedirect(reverse('crawls:ptt_index'))
 
 
-def delete_board(request, fanpage_id):
-    Board.objects.filter(id=fanpage_id).delete()
+def delete_board(request, board_id):
+    Board.objects.filter(id=board_id).delete()
 
     # 目前看來沒區別研究寫法
     # return render(request, reverse())
