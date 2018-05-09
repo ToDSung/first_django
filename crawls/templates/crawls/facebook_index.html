@@ -2,8 +2,9 @@
 {%  extends "./css_header.html" %}
 
 {% block mainbody %}
-    <div class="container">
+    <div class="page-header">
         <h1>FaceBook Fanpage Crawler </h1>
+        <label></label>
     </div>
 
     {% if fanpage_list %}
@@ -17,13 +18,13 @@
                 </tr>
             {% for fanpage in fanpage_list %}
                 <tr>
-                    <td><a href="{% url 'crawls:detail' fanpage.id %}">{{ fanpage.name }}</a></td>
-                    <td><a href="{% url 'crawls:crawl' fanpage.id %}">start crawler</a></td>
-                    <td><a href="{% url 'crawls:delete_crawled_data' fanpage.id %}">delete crawled data</a></td>
-                    <td><a href="{% url 'crawls:delete_fanpage' fanpage.id %}">delete fan page</a></td>
+                    <td><a href="{% url 'crawls:facebook_detail' fanpage.id %}">{{ fanpage.name }}</a></td>
+                    <td><a href="{% url 'crawls:facebook_crawl' fanpage.id %}">start crawler</a></td>
+                    <td><a href="{% url 'crawls:facebook_delete_crawled_data' fanpage.id %}">delete crawled data</a></td>
+                    <td><a href="{% url 'crawls:facebook_delete_fanpage' fanpage.id %}">delete fan page</a></td>
                 </tr>    
             {% endfor %}
-                <form action="{% url 'crawls:add' %}" method="POST">
+                <form action="{% url 'crawls:facebook_add' %}" method="POST">
                     {% csrf_token %}
                     <tr>
                         <td colspan="3"><input type="text" class="form-control" name="name" placeholder="Input your interested fanpage name XXXXX">

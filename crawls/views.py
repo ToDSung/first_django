@@ -5,13 +5,13 @@ from django.views import generic
 from django.urls import reverse
 
 from .fb_crawler import fb_crawler
-from .models import Article, FanPage
+from .models import FacebookArticle, FanPage
 
 # Create your views here.
 
 
 class FanPageView(generic.ListView):
-    template_name = 'crawls/index.html'
+    template_name = 'crawls/facebook_index.html'
     context_object_name = 'fanpage_list'
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class FanPageView(generic.ListView):
 
 class DetailView(generic.DetailView):
     model = FanPage
-    template_name = 'crawls/detail.html'
+    template_name = 'crawls/facebook_detail.html'
 
 
 class FanPageForm(ModelForm):
@@ -38,7 +38,7 @@ def add(request):
             FanPage.objects.create(name=name)
             FanPage.save
             fanpage_list = FanPage.objects.all()
-            return HttpResponseRedirect('/crawls/')
+            return HttpResponseRedirect(reverse('crawls:facebook_index'))
         return HttpResponse("The input data type doesn't supported")
         # return HttpResponseRedirect('/fanpage/' + str(new_article.pk))
 
@@ -50,21 +50,32 @@ def crawl(request, fanpage_id):
     except:
         return HttpResponse('The facebook token already expired')
     for row in imformation_list:
-        Article.objects.create(fanpage_id=fanpage_id, text=row[0], time=row[1])
-    Article.save
-    return HttpResponseRedirect('/crawls/')
+        FacebookArticle.objects.create(fanpage_id=fanpage_id, text=row[0], time=row[1])
+    FacebookArticle.save
+    return HttpResponseRedirect(reverse('crawls:facebook_index'))
 
 
 def delete_crawled_data(request, fanpage_id):
-    Article.objects.filter(fanpage_id=fanpage_id).delete()
-    return HttpResponseRedirect('/crawls/')
+    FacebookArticle.objects.filter(fanpage_id=fanpage_id).delete()
+    return HttpResponseRedirect(reverse('crawls:facebook_index'))
 
 
 def delete_fanpage(request, fanpage_id):
-    print(fanpage_id)
     FanPage.objects.filter(id=fanpage_id).delete()
 
     # 目前看來沒區別研究寫法
     # return render(request, reverse())
-    return HttpResponseRedirect(reverse('crawls:index'))
+    return HttpResponseRedirect(reverse('crawls:facebook_index'))
     # return redirect('/crawls/')
+
+
+class BoardView(generic.ListView):
+    template_name = 'crawls/ptt_index.html'
+    context_object_name = 'board_list'
+
+    def get_queryset(self):
+        board_list = Board.objects.all()
+        return board_list
+
+#def ptt_detail(request, ptt_id):
+    

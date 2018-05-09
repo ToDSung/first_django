@@ -5,10 +5,14 @@ from . import views
 
 app_name = 'crawls'
 urlpatterns = [
-    path('', views.FanPageView.as_view(), name='index'),
-    path('add', views.add, name='add'),
-    path('<int:pk>', views.DetailView.as_view(), name='detail'),
-    path('<int:fanpage_id>/crawl', views.crawl, name='crawl'),
-    path('<int:fanpage_id>/delete', views.delete_crawled_data, name='delete_crawled_data'),
-    path('<int:fanpage_id>/delete2', views.delete_fanpage, name='delete_fanpage')
+    path('facebook', views.FanPageView.as_view(), name='facebook_index'),
+    path('facebook/add', views.add, name='facebook_add'),
+    path('facebook/<int:pk>', views.DetailView.as_view(), name='facebook_detail'),
+    path('facebook/<int:fanpage_id>/crawl',
+         views.crawl, name='facebook_crawl'),
+    path('facebook/<int:fanpage_id>/delete', views.delete_crawled_data, name='facebook_delete_crawled_data'),
+    path('facebook/<int:fanpage_id>/delete2',
+         views.delete_fanpage, name='facebook_delete_fanpage'),
+    path('ptt', views.BoardView.as_view(), name='ptt_index')
+    #path('ptt', views.ptt_detail, name='ptt_detatil)
     ]

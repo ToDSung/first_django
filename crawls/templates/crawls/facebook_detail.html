@@ -6,9 +6,9 @@
 
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-        {% if fanpage.article_set.all  %}
+        {% if fanpage.facebookarticle_set.all  %}
         
-                {% for article in fanpage.article_set.all %}
+                {% for article in fanpage.facebookarticle_set.all %}
                     <div class="row">
                         <div class="col-10">
                             {{ article.text }}
