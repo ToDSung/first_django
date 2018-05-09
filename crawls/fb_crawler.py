@@ -6,12 +6,24 @@ from bs4 import BeautifulSoup
 from dateutil.parser import parse
 import pandas as pd
 
-def fb_crawler():
-    token='EAACEdEose0cBACOaJQmt5OaMzLdiJO5SraBsygPBmHDovwyiQAbzCcZAMZCIP5LZCHJ8wi9zvHaxw39hXT35U3mPc0HxagLc1Tg9JpLVqhPJd0RsIqkZC3xvD0QZA5S2XZAj3IzFnTLUavbfQ74f2IjEodOAQ1TCz4ZAwXKWZC3CJplwAOIybo6kxowCIcvakUEI7ndwGZC6DUrHnrCyZA5CaZBL7vpQeTvNyAZD'
+from .models import FanPage
+
+def get_fb_token(app_id, app_secret):           
+    payload = {'grant_type': 'client_credentials', 'client_id': app_id, 'client_secret': app_secret}
+    file = requests.post('https://graph.facebook.com/oauth/access_token?', params = payload)
+    #print file.text #to test what the FB api responded with    
+    result = file.text.split("=")[1]
+    
+    #print file.text #to test the TOKEN
+    return result
+
+def fb_crawler(id,fan_page_name):
+    
+    token = 'EAACEdEose0cBANLXeRZBYjkqSVjBCl5P3XOoDaRBvKpSE9dGwg2ZA0P5MvF3pE4tbWhq5uoWwp695EvPjLQepJvMZCGZAxBSH6KQxGgxFZAAU9rGcNwLomHt192ZC9rvTv4xoTAZBsCZCj5VWIMHFWkjCqSZAW3vkf1wfij8EDsmlg0ZBwdYp4crLIZCDNoSSvAftjpNvkjNMsE0kGRnpJ5it5PSVMMRoYgnKAZD'
 
     graph=facebook.GraphAPI(access_token=token)
 
-    fanpage_info = graph.get_object('CCUCNA', filed='id')
+    fanpage_info = graph.get_object(str(fan_page_name), filed='id')
 
     fanpages = { fanpage_info['id']: fanpage_info['name']}
     # 建立一個空的list        
@@ -45,9 +57,4 @@ def fb_crawler():
             else:
                 print('{} {} 已爬取完成! \n'.format(fanpage_id, fanpages[fanpage_id]))
                 break
-    
-# 最後將list轉換成dataframe，並輸出成Excel檔
-
-            #information_df = pd.DataFrame(information_list, columns=['粉絲專頁', '發文內容', '發文時間'])
             return information_list
-            #information_df.to_excel('Data Visualization Information.xlsx', index=False)  

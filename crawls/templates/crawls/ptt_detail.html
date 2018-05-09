@@ -1,0 +1,30 @@
+{%  extends "./css_header.html" %}
+
+{% block mainbody %}
+    <div class="container" >
+        <h1>{{ board.name }}</h1>
+
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+        {% if board.pttarticle_set.all  %}
+        
+                {% for article in board.pttarticle_set.all %}
+                    <div class="row">
+                        <div class="col-1" >
+                            {{article.push_boo}}
+                        </div>
+                        <div class="col-9">
+                            <a href="{{ article.url }}">{{ article.title }}</a>  
+                        </div>
+                        <div class="col-2" >
+                            {{ article.date }}
+                        </div>
+                    </div>
+                    <br>
+                {% endfor %}
+            
+        {% else %}
+            <h2>No article list in this board</h2>
+        {% endif %}
+    </div>
+{% endblock %}

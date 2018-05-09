@@ -18,32 +18,19 @@
         {% for board in board_list %}
         <tr>
             <td>
-                <a href="{% url 'crawls:detail' board.id %}">{{ board.name }}</a>
+                <a href="{% url 'crawls:ptt_detail' board.id %}">{{ board.name }}</a>
             </td>
             <td>
-                <a href="{% url 'crawls:crawl' board.id %}">start crawler</a>
+                <a href="{% url 'crawls:ptt_crawl' board.id %}">start crawler</a>
             </td>
             <td>
-                <a href="{% url 'crawls:delete_crawled_data' board.id %}">delete crawled data</a>
+                <a href="{% url 'crawls:ptt_delete_crawled_data' board.id %}">delete crawled data</a>
             </td>
             <td>
-                <a href="{% url 'crawls:delete_fanpage'board.id %}">delete fan page</a>
+                <a href="{% url 'crawls:ptt_delete_board' board.id %}">delete board</a>
             </td>
         </tr>
         {% endfor %}
-        <form action="{% url 'crawls:add' %}" method="POST">
-            {% csrf_token %}
-            <tr>
-                <td colspan="3">
-                    <input type="text" class="form-control" name="name" placeholder="Input your interested fanpage name XXXXX">
-                    <small class="form-text text-muted">Find the board name in the url https://www.facebook.com/XXXXX/ </small>
-                </td>
-
-                <td>
-                    <button type="submit" class="btn  btn-outline-success">Submit</button>
-                </td>
-            </tr>
-        </form>
     </table>
 </div>
 {% else %}

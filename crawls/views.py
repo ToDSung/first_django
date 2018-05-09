@@ -5,7 +5,8 @@ from django.views import generic
 from django.urls import reverse
 
 from .fb_crawler import fb_crawler
-from .models import FacebookArticle, FanPage
+from .ptt_crawler import ptt_crawler
+from .models import Board, FacebookArticle, FanPage, PttArticle
 
 # Create your views here.
 
@@ -50,7 +51,8 @@ def crawl(request, fanpage_id):
     except:
         return HttpResponse('The facebook token already expired')
     for row in imformation_list:
-        FacebookArticle.objects.create(fanpage_id=fanpage_id, text=row[0], time=row[1])
+        FacebookArticle.objects.create(
+            fanpage_id=fanpage_id, text=row[0], time=row[1])
     FacebookArticle.save
     return HttpResponseRedirect(reverse('crawls:facebook_index'))
 
@@ -77,5 +79,46 @@ class BoardView(generic.ListView):
         board_list = Board.objects.all()
         return board_list
 
-#def ptt_detail(request, ptt_id):
-    
+
+class PTTDetailView(generic.DetailView):
+    model = Board
+    template_name = 'crawls/ptt_detail.html'
+
+
+'''
+def add(request):
+    if request.method == 'POST':
+        form = FanPageForm(request.POST)
+        if form.is_valid():
+            name = request.POST['name']
+            FanPage.objects.create(name=name)
+            FanPage.save
+            fanpage_list = FanPage.objects.all()
+            return HttpResponseRedirect(reverse('crawls:facebook_index'))
+        return HttpResponse("The input data type doesn't supported")
+        # return HttpResponseRedirect('/fanpage/' + str(new_article.pk))
+'''
+
+
+def crawl_ptt_data(request, board_id):
+    board = Board.objects.get(pk=board_id)
+    imformation_list = ptt_crawler(board_id, board)
+    for row in imformation_list:
+        PttArticle.objects.create(
+            board_id=board_id, title=row[0], push_boo=row[1], date=row[2], url=row[3])
+    PttArticle.save
+    return HttpResponseRedirect(reverse('crawls:ptt_index'))
+
+
+def delete_ptt_data(request, fanpage_id):
+    PttArticle.objects.filter(fanpage_id=fanpage_id).delete()
+    return HttpResponseRedirect(reverse('crawls:ptt_index'))
+
+
+def delete_board(request, fanpage_id):
+    Board.objects.filter(id=fanpage_id).delete()
+
+    # 目前看來沒區別研究寫法
+    # return render(request, reverse())
+    return HttpResponseRedirect(reverse('crawls:ptt_index'))
+    # return redirect('/crawls/')
