@@ -8,6 +8,17 @@ from .fb_crawler import fb_crawler
 from .ptt_crawler import ptt_crawler
 from .models import Board, FacebookArticle, FanPage, PttArticle
 
+'''
+可以用如下方法限制request傳入要求的方法
+from django.views.decorators.http import require_http_methods
+
+
+@require_http_methods(["GET", "POST"])
+def my_view(request):
+    # I can assume now that only GET or POST requests make it this far
+    # ...
+    pass
+'''
 # Create your views here.
 
 
@@ -79,20 +90,24 @@ class BoardView(generic.ListView):
         board_list = Board.objects.all()
         return board_list
 
+
 '''
 class PTTDetailView(generic.DetailView):
     model = Board
     template_name = 'crawls/ptt_detail.html'
 '''
 
+
 class PTTBoardForm(ModelForm):
     class Meta:
         model = Board
         fields = ['name']
 
+
 def show_article(request, board_id):
     board_list = Board.objects.filter(id=board_id)
-    article_list = PttArticle.objects.filter(board_id=board_id).order_by('-date')
+    article_list = PttArticle.objects.filter(
+        board_id=board_id).order_by('-date')
     return render(request, 'crawls/ptt_detail.html', {'board_list': board_list, 'article_list': article_list})
 
 
