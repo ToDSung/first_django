@@ -17,7 +17,7 @@ from django.views.decorators.http import require_http_methods
 def my_view(request):
     # I can assume now that only GET or POST requests make it this far
     # ...
-    pass
+    pass    
 '''
 # Create your views here.
 
@@ -70,16 +70,13 @@ def crawl(request, fanpage_id):
 
 def delete_crawled_data(request, fanpage_id):
     FacebookArticle.objects.filter(fanpage_id=fanpage_id).delete()
-    return HttpResponseRedirect(reverse('crawls:facebook_index'))
+    return redirect('crawls:facebook_index')
+    # return HttpResponseRedirect(reverse('crawls:facebook_index'))
 
 
 def delete_fanpage(request, fanpage_id):
     FanPage.objects.filter(id=fanpage_id).delete()
-
-    # 目前看來沒區別研究寫法
-    # return render(request, reverse())
     return HttpResponseRedirect(reverse('crawls:facebook_index'))
-    # return redirect('/crawls/')
 
 
 class BoardView(generic.ListView):
@@ -136,13 +133,29 @@ def crawl_ptt_data(request, board_id):
 
 def delete_ptt_data(request, board_id):
     PttArticle.objects.filter(board_id=board_id).delete()
+    # return redirect('crawls:ptt_index')
+    # return redirect('/crawls/ptt/')
     return HttpResponseRedirect(reverse('crawls:ptt_index'))
 
 
 def delete_board(request, board_id):
     Board.objects.filter(id=board_id).delete()
 
-    # 目前看來沒區別研究寫法
-    # return render(request, reverse())
     return HttpResponseRedirect(reverse('crawls:ptt_index'))
-    # return redirect('/crawls/')
+
+
+'''
+    Q: 研究各種 return 渲染回傳方法    
+
+    render 後面必須要有request參數 reverse() 用做url尋找對應的view執行
+    return render(request, reverse())
+    
+    #直接嘗試執行某個 view 方法
+    return redirect('crawls:ptt_index')
+    
+    #用硬解碼的方式重新導向至指定 template ##注意這邊的網址前面仍有 / 
+    return redirect('/crawls/ptt/')
+
+    #redirecet 結合 reverse 的用法
+    return HttpResponseRedirect(reverse('crawls:ptt_index'))
+'''
