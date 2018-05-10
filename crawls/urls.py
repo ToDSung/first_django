@@ -21,4 +21,5 @@ urlpatterns = [
          name='ptt_delete_crawled_data'),
     path('ptt/<int:board_id>/delete2',
          views.delete_board, name='ptt_delete_board'),
+    path('ptt/add', views.add_ptt_board, name='ptt_add'),     
 ]

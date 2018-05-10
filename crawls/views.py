@@ -85,24 +85,29 @@ class PTTDetailView(generic.DetailView):
     template_name = 'crawls/ptt_detail.html'
 
 
-'''
-def add(request):
+class PTTBoardForm(ModelForm):
+    class Meta:
+        model = Board
+        fields = ['name']
+
+
+def add_ptt_board(request):
     if request.method == 'POST':
-        form = FanPageForm(request.POST)
+        form = PTTBoardForm(request.POST)
         if form.is_valid():
             name = request.POST['name']
-            FanPage.objects.create(name=name)
-            FanPage.save
-            fanpage_list = FanPage.objects.all()
-            return HttpResponseRedirect(reverse('crawls:facebook_index'))
+            Board.objects.create(name=name)
+            Board.save
+            Board_list = Board.objects.all()
+            return HttpResponseRedirect(reverse('crawls:ptt_index'))
         return HttpResponse("The input data type doesn't supported")
         # return HttpResponseRedirect('/fanpage/' + str(new_article.pk))
-'''
+
 
 
 def crawl_ptt_data(request, board_id):
     board = Board.objects.get(pk=board_id)
-    imformation_list = ptt_crawler(board_id, board)
+    imformation_list = ptt_crawler(board_id, board.name)
     for row in imformation_list:
         PttArticle.objects.create(
             board_id=board_id, title=row[0], push_boo=row[1], date=row[2], url=row[3])

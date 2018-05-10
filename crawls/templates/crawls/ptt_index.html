@@ -31,6 +31,19 @@
             </td>
         </tr>
         {% endfor %}
+        <form action="{% url 'crawls:ptt_add' %}" method="POST">
+            {% csrf_token %}
+            <tr>
+                <td colspan="3">
+                    <input type="text" class="form-control" name="name" placeholder="Input your interested ptt board name XXXXX">
+                    <small class="form-text text-muted">Find the board name in the url https://www.ptt.cc/bbs/hotboards.html </small>
+                </td>
+        
+                <td>
+                    <button type="submit" class="btn  btn-outline-success">Submit</button>
+                </td>
+            </tr>
+        </form>
     </table>
 </div>
 {% else %}
