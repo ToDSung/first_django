@@ -79,16 +79,21 @@ class BoardView(generic.ListView):
         board_list = Board.objects.all()
         return board_list
 
-
+'''
 class PTTDetailView(generic.DetailView):
     model = Board
     template_name = 'crawls/ptt_detail.html'
-
+'''
 
 class PTTBoardForm(ModelForm):
     class Meta:
         model = Board
         fields = ['name']
+
+def show_article(request, board_id):
+    board_list = Board.objects.filter(id=board_id)
+    article_list = PttArticle.objects.filter(board_id=board_id).order_by('-date')
+    return render(request, 'crawls/ptt_detail.html', {'board_list': board_list, 'article_list': article_list})
 
 
 def add_ptt_board(request):
@@ -102,7 +107,6 @@ def add_ptt_board(request):
             return HttpResponseRedirect(reverse('crawls:ptt_index'))
         return HttpResponse("The input data type doesn't supported")
         # return HttpResponseRedirect('/fanpage/' + str(new_article.pk))
-
 
 
 def crawl_ptt_data(request, board_id):

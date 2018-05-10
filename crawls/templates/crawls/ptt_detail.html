@@ -2,13 +2,14 @@
 
 {% block mainbody %}
     <div class="container" >
-        <h1>{{ board.name }}</h1>
-
+        {% for board in board_list %}
+            <h1>{{ board.name }}</h1>
+        {% endfor %}
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-        {% if board.pttarticle_set.all  %}
+        {% if article_list %}
         
-                {% for article in board.pttarticle_set.all %}
+                {% for article in article_list %}
                     <div class="row">
                         <div class="col-1" >
                             {{article.push_boo}}
