@@ -36,14 +36,28 @@ class DetailView(generic.DetailView):
     template_name = 'crawls/facebook_detail.html'
 
 
+"""
+class FanPageForm(ModelForm):
+繼承ModelForm 可以不用在view建立form類別
+效果類似下面
+class FanPageForm(forms.Form):
+    name = forms.CharField(max_length=30)
+也有error_message的方法可以調用
+用這種寫法更改顯示的欄位樣板
+    widgets = {
+        'name': Textarea(attrs={'cols': 80, 'rows': 20}),
+    }
+"""
 class FanPageForm(ModelForm):
     class Meta:
         model = FanPage
         fields = ['name']
+        #fields = '__all__' 取用全部的欄位
 
 
 def add(request):
     if request.method == 'POST':
+        # Create a form instance from POST data.
         form = FanPageForm(request.POST)
         if form.is_valid():
             name = request.POST['name']
@@ -124,6 +138,7 @@ def add_ptt_board(request):
 def crawl_ptt_data(request, board_id):
     board = Board.objects.get(pk=board_id)
     imformation_list = ptt_crawler(board_id, board.name)
+    PttArticle.objects.filter(board_id=board_id).delete()
     for row in imformation_list:
         PttArticle.objects.create(
             board_id=board_id, title=row[0], push_boo=row[1], date=row[2], url=row[3])
